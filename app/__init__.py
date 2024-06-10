@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_restful import Api # type: ignore
-from flasgger import Swagger # type: ignore
+from flasgger import Swagger
 
 db = SQLAlchemy()
 
@@ -10,12 +9,11 @@ def create_app():
     app.config.from_object('app.config.Config')
 
     db.init_app(app)
-    api = Api(app)
     swagger = Swagger(app)
 
-    from app.resources import RestaurantResource, RestaurantListResource, RestaurantStatisticsResource
-    api.add_resource(RestaurantListResource, '/restaurants')
-    api.add_resource(RestaurantResource, '/restaurants/<string:id>')
-    api.add_resource(RestaurantStatisticsResource, '/restaurants/statistics')
+    with app.app_context():
+        from . import routes 
+        app.register_blueprint(routes.main)
+        db.create_all()
 
     return app
