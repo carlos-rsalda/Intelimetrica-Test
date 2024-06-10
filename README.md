@@ -2,6 +2,13 @@
 
 This project provides a REST API for managing restaurant data and retrieving statistics about restaurants within a specified radius. The API is built using Flask, Flask-RESTful, SQLAlchemy, and Flasgger for API documentation.
 
+# Deployed Server
+
+The API is live and can be accessed at: [Melp Restaurants API](https://intelimetrica-test.onrender.com/apidocs/)
+
+https://intelimetrica-test.onrender.com/apidocs/
+
+
 ## Features
 
 - **CRUD Operations**: Create, Read, Update, and Delete restaurant data.
@@ -10,7 +17,7 @@ This project provides a REST API for managing restaurant data and retrieving sta
 
 ## Getting Started
 
-### Prerequisites
+### Prerequisites to run locally
 
 Make sure you have the following installed:
 
