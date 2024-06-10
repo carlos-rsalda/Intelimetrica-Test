@@ -1,0 +1,31 @@
+tags:
+  - statistics
+parameters:
+  - name: latitude
+    in: query
+    type: number
+    required: true
+    format: float
+  - name: longitude
+    in: query
+    type: number
+    required: true
+    format: float
+  - name: radius
+    in: query
+    type: number
+    required: true
+    format: float
+responses:
+  200:
+    description: Statistics of restaurants within the specified radius
+    schema:
+      properties:
+        count:
+          type: integer
+        avg:
+          type: number
+          format: float
+        std:
+          type: number
+          format: float

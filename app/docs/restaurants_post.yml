@@ -1,0 +1,36 @@
+tags:
+  - restaurants
+parameters:
+  - name: body
+    in: body
+    required: true
+    schema:
+      type: object
+      properties:
+        id:
+          type: string
+        rating:
+          type: integer
+        name:
+          type: string
+        site:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        street:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        lat:
+          type: number
+          format: float
+        lng:
+          type: number
+          format: float
+responses:
+  201:
+    description: Restaurant created successfully

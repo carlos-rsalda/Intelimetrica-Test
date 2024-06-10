@@ -1,0 +1,12 @@
+tags:
+  - restaurants
+parameters:
+  - name: id
+    in: path
+    required: true
+    type: string
+responses:
+  204:
+    description: Restaurant deleted successfully
+  404:
+    description: Restaurant not found

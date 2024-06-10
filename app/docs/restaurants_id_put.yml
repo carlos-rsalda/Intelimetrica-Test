@@ -1,0 +1,40 @@
+tags:
+  - restaurants
+parameters:
+  - name: id
+    in: path
+    required: true
+    type: string
+  - name: body
+    in: body
+    required: true
+    schema:
+      type: object
+      properties:
+        rating:
+          type: integer
+        name:
+          type: string
+        site:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        street:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        lat:
+          type: number
+          format: float
+        lng:
+          type: number
+          format: float
+responses:
+  200:
+    description: Restaurant updated successfully
+  404:
+    description: Restaurant not found
