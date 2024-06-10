@@ -1,19 +1,17 @@
-from flask import request, jsonify
-from . import db
-from .models import Restaurant
-from app import create_app
-from flasgger import Swagger, swag_from
+from flask import Blueprint, redirect, request, jsonify
+from app.models import Restaurant
+from app import db
+from flasgger import swag_from
 
-app = create_app()
 
-print("Inicio de la definición de rutas")
+main = Blueprint('main', __name__)
 
-@app.route('/')
+@main.route('/')
 def home():
-    print("Ruta '/' registrada")
-    return "Welcome to the Melp Restaurants API!"
+    return redirect('/apidocs')
 
-@app.route('/restaurants', methods=['POST'])
+
+@main.route('/restaurants', methods=['POST'])
 @swag_from({
     'tags': ['restaurants'],
     'parameters': [
@@ -46,14 +44,13 @@ def home():
     }
 })
 def create_restaurant():
-    print("Ruta '/restaurants' [POST] registrada")
     data = request.get_json()
     new_restaurant = Restaurant(**data)
     db.session.add(new_restaurant)
     db.session.commit()
     return jsonify({'message': 'Restaurant created successfully'}), 201
 
-@app.route('/restaurants', methods=['GET'])
+@main.route('/restaurants', methods=['GET'])
 @swag_from({
     'tags': ['restaurants'],
     'responses': {
@@ -81,11 +78,10 @@ def create_restaurant():
     }
 })
 def get_restaurants():
-    print("Ruta '/restaurants' [GET] registrada")
     restaurants = Restaurant.query.all()
     return jsonify([restaurant.to_dict() for restaurant in restaurants])
 
-@app.route('/restaurants/<id>', methods=['GET'])
+@main.route('/restaurants/<id>', methods=['GET'])
 @swag_from({
     'tags': ['restaurants'],
     'parameters': [
@@ -121,11 +117,10 @@ def get_restaurants():
     }
 })
 def get_restaurant(id):
-    print(f"Ruta '/restaurants/<id>' [GET] registrada")
     restaurant = Restaurant.query.get_or_404(id)
     return jsonify(restaurant.to_dict())
 
-@app.route('/restaurants/<id>', methods=['PUT'])
+@main.route('/restaurants/<id>', methods=['PUT'])
 @swag_from({
     'tags': ['restaurants'],
     'parameters': [
@@ -166,7 +161,6 @@ def get_restaurant(id):
     }
 })
 def update_restaurant(id):
-    print(f"Ruta '/restaurants/<id>' [PUT] registrada")
     data = request.get_json()
     restaurant = Restaurant.query.get_or_404(id)
     for key, value in data.items():
@@ -174,7 +168,7 @@ def update_restaurant(id):
     db.session.commit()
     return jsonify({'message': 'Restaurant updated successfully'})
 
-@app.route('/restaurants/<id>', methods=['DELETE'])
+@main.route('/restaurants/<id>', methods=['DELETE'])
 @swag_from({
     'tags': ['restaurants'],
     'parameters': [
@@ -195,14 +189,13 @@ def update_restaurant(id):
     }
 })
 def delete_restaurant(id):
-    print(f"Ruta '/restaurants/<id>' [DELETE] registrada")
     restaurant = Restaurant.query.get_or_404(id)
     db.session.delete(restaurant)
     db.session.commit()
     return jsonify({'message': 'Restaurant deleted successfully'})
 
 # Task 2: Statistics endpoint
-@app.route('/restaurants/statistics', methods=['GET'])
+@main.route('/restaurants/statistics', methods=['GET'])
 @swag_from({
     'tags': ['statistics'],
     'parameters': [
@@ -242,7 +235,6 @@ def delete_restaurant(id):
     }
 })
 def get_statistics():
-    print("Ruta '/restaurants/statistics' [GET] registrada")
     lat = float(request.args.get('latitude'))
     lng = float(request.args.get('longitude'))
     radius = float(request.args.get('radius'))
@@ -269,4 +261,4 @@ def get_statistics():
         'std': std
     })
 
-print("Fin de la definición de rutas")
+
